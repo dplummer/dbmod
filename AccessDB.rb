@@ -8,9 +8,14 @@ class AccessDB
         @fields = nil
     end
 
+    def additional_properties
+      ""
+    end
+
     def open
-        connection_string =  'Provider=Microsoft.Jet.OLEDB.4.0;Data Source='
+        connection_string =  provider
         connection_string << @mdb
+        connection_string << additional_properties
         @connection = WIN32OLE.new('ADODB.Connection')
         @connection.Open(connection_string)
     end
