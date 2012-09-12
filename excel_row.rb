@@ -57,7 +57,7 @@ class ExcelRow
 UPDATE tblMasterList SET RecordLastUpdate = '#{time.strftime("%m/%d/%Y")}',
 User#{emptyBundle}_LastName = '#{escape_sql(userLastName)}',
 User#{emptyBundle}_FirstName = '#{escape_sql(userFirstName)},
-User#{emptyBundle}_DeploymentRefNum = #{escape_sql(requestNumber)},
+User#{emptyBundle}_DeploymentRefNum = #{requestNumber},
 User#{emptyBundle}_DeploymentDate = '#{escape_sql(deployDate)}''
 WHERE SERIAL = '#{escape_sql(serial)}';
 SQL

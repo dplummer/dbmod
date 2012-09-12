@@ -1,3 +1,4 @@
+require 'win32ole'
 class AccessDB
     attr_accessor :mdb, :connection, :data, :fields
 
