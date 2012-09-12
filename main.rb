@@ -2,6 +2,7 @@ require './AccessDB.rb'
 require './ExcelDB.rb'
 require 'win32ole'
 
+require './excel_row'
 require './DBmod'
 
 database1 = 'C:\Ruby\DatabaseRuby\Test Documents\dbHW_Tracking.mdb'
