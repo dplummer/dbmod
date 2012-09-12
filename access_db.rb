@@ -34,7 +34,7 @@ class AccessDB
             @data = []
         end
         recordset.Close
-        @data
+        @data.dup
     end
 
     def execute(sql)
