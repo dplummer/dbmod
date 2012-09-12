@@ -25,14 +25,19 @@ def user_already_exists?(last_name, first_name, entry)
   false
 end
 
-def lastEmptyBundle(entry)
-	j = nil
-	for i in 1..5
-		if (entry[0][4 + 9*i].nil? && entry[0][5 + 9*i].nil? && entry[0][6 + 9*i].nil? && entry[0][7 + 9*i].nil? && entry[0][8 + 9*i].nil? && entry[0][9 + 9*i].nil? && entry[0][10 + 9*i].nil? && j.nil?)
-			j = i
+def last_empty_bundle(entry)
+  5.times do |i|
+		if entry[0][13 + 9*i].nil? &&
+       entry[0][14 + 9*i].nil? &&
+       entry[0][15 + 9*i].nil? &&
+       entry[0][16 + 9*i].nil? &&
+       entry[0][17 + 9*i].nil? &&
+       entry[0][18 + 9*i].nil? &&
+       entry[0][19 + 9*i].nil?
+      return i
 		end
 	end
-	i = j
+  nil
 end
 
 ########
@@ -78,7 +83,7 @@ for i in 1..exceldb.data.length
 			if(user_already_exists?(userLastName, userFirstName, accessdb.data))
 #				######################
 			else 
-				emptyBundle = lastEmptyBundle(accessdb.data)
+				emptyBundle = last_empty_bundle(accessdb.data)
 
 				#Find which User in access the first empty
 				if(emptyBundle != nil)
