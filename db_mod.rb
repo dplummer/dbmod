@@ -13,7 +13,7 @@ class DBmod
     excel_data = exceldb.query("SELECT * FROM " + excelworkpage)
 
     (exceldb_data.length).times do |row_number|
-      ExcelRow.new(excel_data[row_number], accessdb_data, accessdb)
+      ExcelRow.new(excel_data[row_number], accessdb_data, accessdb).run
     end
   end
 end
