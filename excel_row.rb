@@ -29,47 +29,40 @@ class ExcelRow
     #Check if the Serial is in the database
     #if entry not in db, hand inspect
     if (!serial_record.empty?)
-      update_accessdb
+      #Check if the user has already separated from equipment
+      unless user_already_exists?
+        emptyBundle = last_empty_bundle(accessdb_data)
+
+        #Find which User in access the first empty
+        if emptyBundle
+          update_accessdb
+
+        #All users spots are full
+        else
+          puts "#{serial} Error: All Fields Full"
+        end
+      end
     else
       puts "#{serial} Error: DNE" 
     end
   end
 
   def update_accessdb
-    #Check if the user has already separated from equipment
-    if user_already_exists?
-#				######################
-    else 
-      emptyBundle = last_empty_bundle(accessdb_data)
-
-      #Find which User in access the first empty
-      if(emptyBundle != nil)
-
-        if (userLastName.nil? && userFirstName.nil?)
-          userLastName = userLogin
-          userFirstName = userLogin
-        end
-
-        update = "UPDATE tblMasterList SET RecordLastUpdate = '" + time.strftime("%m/%d/%Y")
-        update << "', User" + emptyBundle.to_s + "_LastName = '" + userLastName.to_s
-        update << "', User" + emptyBundle.to_s + "_FirstName = '" + userFirstName.to_s	
-        update << "', User" + emptyBundle.to_s + "_DeploymentRefNum = " + requestNumber.to_s
-        update << ", User" + emptyBundle.to_s + "_DeploymentDate = '" + deployDate.to_s	
-
-
-
-        update << "' WHERE SERIAL = '" + serial.to_s + "';"
-        puts update
-        puts ""
-        sql = update
-
-        accessdb.execute(sql) 
-
-      #All users spots are full
-      else
-        puts serial + " Error: All Fields Full"
-      end
+    if (user_last_name.nil? && user_first_name.nil?)
+      @user_last_name = user_login
+      @user_first_name = user_login
     end
+
+    sql = <<-SQL
+UPDATE tblMasterList SET RecordLastUpdate = '#{time.strftime("%m/%d/%Y")}',
+User#{emptyBundle}_LastName = '#{userLastName}',
+User#{emptyBundle}_FirstName = '#{userFirstName},
+User#{emptyBundle}_DeploymentRefNum = #{requestNumber},
+User#{emptyBundle}_DeploymentDate = '#{deployDate}''
+WHERE SERIAL = '#{serial}';
+SQL
+
+    accessdb.execute(sql) 
   end
 
   private
