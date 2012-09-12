@@ -89,13 +89,7 @@ SQL
 
   def last_empty_bundle(entry)
     5.times do |i|
-      if entry[0][13 + 9*i].nil? &&
-         entry[0][14 + 9*i].nil? &&
-         entry[0][15 + 9*i].nil? &&
-         entry[0][16 + 9*i].nil? &&
-         entry[0][17 + 9*i].nil? &&
-         entry[0][18 + 9*i].nil? &&
-         entry[0][19 + 9*i].nil?
+      if (13..19).all? {|j| entry[0][j + 9*i].nil?}
         return i
       end
     end
