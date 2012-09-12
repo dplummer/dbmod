@@ -16,18 +16,13 @@ def shippedOrDeployed(word)
 	end
 end
 
-def SerialExists(serial, db1)
-	db1.query("SELECT * FROM tblMasterList WHERE serial = '" + serial + "'").inspect
-end
-
-def UserExistsAlready(lastName, firstName, entry)
-	j = nil
-	for i in 1..5
-		if (entry[0][5 + 9*i] == firstName && entry[0][4 + 9*i] == lastName)
-			j = i
+def user_already_exists?(last_name, first_name, entry)
+  5.times do |i|
+		if (entry[0][14 + 9*i] == first_name && entry[0][13 + 9*i] == last_name)
+      return true
 		end
 	end
-	i = j
+  false
 end
 
 def lastEmptyBundle(entry)
@@ -80,7 +75,7 @@ for i in 1..exceldb.data.length
 			requestNumber = exceldb.data[i-1][13]
 		
 			#Check if the user has already separated from equipment
-			if(UserExistsAlready(userLastName, userFirstName, accessdb.data))
+			if(user_already_exists?(userLastName, userFirstName, accessdb.data))
 #				######################
 			else 
 				emptyBundle = lastEmptyBundle(accessdb.data)
