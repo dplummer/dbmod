@@ -33,6 +33,7 @@ class AccessDB
             @data = []
         end
         recordset.Close
+        @data
     end
 
     def execute(sql)
